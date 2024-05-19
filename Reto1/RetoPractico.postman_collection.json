@@ -1,0 +1,771 @@
+{
+	"info": {
+		"_postman_id": "38590f08-f6dd-4d2c-b937-c71d823258b6",
+		"name": "RetoPractico",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34963824"
+	},
+	"item": [
+		{
+			"name": "Book",
+			"item": [
+				{
+					"name": "Obtener",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Body matches string\", function(){\r",
+									"    pm.expect(pm.response.text()).to.include(\"The Russian\");\r",
+									"});\r",
+									"pm.test(\"Body matches status code\", function(){\r",
+									"    pm.expect(pm.response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var esquema = {\r",
+									"    \"items\":{\r",
+									"        type: \"object\",\r",
+									"        properties: {\r",
+									"            id: {type: \"number\"},\r",
+									"            name: {type: \"string\"},\r",
+									"            type: {type: \"string\"},\r",
+									"            available: {type: \"boolean\"}\r",
+									"        }\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"pm.test(\"Validar esquema de la busqueda \", function(){\r",
+									"    pm.response.to.have.jsonSchema(esquema);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Url_Base}}{{Book}}",
+							"host": [
+								"{{Url_Base}}{{Book}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerMal",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Body matches status code\", function(){\r",
+									"    pm.expect(pm.response).to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Url_Base}}BOOK",
+							"host": [
+								"{{Url_Base}}BOOK"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Body matches string\", function(){\r",
+									"    pm.expect(pm.response.text()).to.include(\"Just as I Am\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches price\",function (){\r",
+									"    var price = 20.33;\r",
+									"    pm.expect(pm.response.text()).to.include(price.toString());\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches Status\", function(){\r",
+									"    pm.expect(pm.response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"    var esquema = {\r",
+									"        type: \"object\",\r",
+									"        properties: {\r",
+									"            id: {type: \"number\"},\r",
+									"            name: {type: \"string\"},\r",
+									"            author: {type: \"string\"},\r",
+									"            type: {type: \"string\"},\r",
+									"            price: {type: \"number\"},\r",
+									"            \"current-stock\": {type: \"number\"},\r",
+									"            available: {type: \"boolean\"}\r",
+									"        },\r",
+									"    }\r",
+									"\r",
+									"    pm.test(\"Validar esquema \",function (){\r",
+									"        pm.response.to.have.jsonSchema(esquema);\r",
+									"    });\r",
+									"    \r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Url_Base}}{{Book}}2",
+							"host": [
+								"{{Url_Base}}{{Book}}2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BuscarMal",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Body match status\", function(){\r",
+									"    pm.expect(pm.response).to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Url_Base}}{{Book}}14",
+							"host": [
+								"{{Url_Base}}{{Book}}14"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Body match status\",function(){\r",
+									"    pm.expect(pm.response).to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"user\",pm.variables.replaceIn(\"{{$randomEmail}}\"));\r",
+									"pm.environment.set(\"Name\",pm.variables.replaceIn(\"{{$randomFirstName}}\"));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "91194abd4a8101193decc7705f8195ebac839425ee1d9d2eb7da0d27ac2f8c3b",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"clientName\": \"{{Name}}\",\r\n    \"clientEmail\": \"{{user}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url_Base}}api-clients",
+							"host": [
+								"{{Url_Base}}api-clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RegistrarMal",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Body match status\",function(){\r",
+									"    pm.expect(pm.response).to.have.status(409);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"clientEmail\": \"valentin@example.com\",\r\n    \"clientName\": \"Postman\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url_Base}}api-clients",
+							"host": [
+								"{{Url_Base}}api-clients"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Enviar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validar true de creación \",function(){\r",
+									"    \r",
+									"    var created = true; \r",
+									"    pm.expect(pm.response.text()).to.include(created);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar codigo\",function(){\r",
+									"    pm.expect(pm.response).to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "91194abd4a8101193decc7705f8195ebac839425ee1d9d2eb7da0d27ac2f8c3b",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"bookId\": 1,\r\n  \"customerName\": \"John\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url_Base}}{{Orders}}",
+							"host": [
+								"{{Url_Base}}{{Orders}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EnviarMal",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validar codigo de error \",function(){\r",
+									"    pm.expect(pm.response).to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "91194abd4a8101193decc7705f8195ebac839425ee1d9d2eb7da0d27ac2f8c3b",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"bookId\": 16,\r\n  \"customerName\": \"John\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url_Base}}{{Orders}}",
+							"host": [
+								"{{Url_Base}}{{Orders}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerTodos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validar codigo de Ok\",function(){\r",
+									"    pm.expect(pm.response).to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Body matches string \",function(){\r",
+									"    pm.expect(pm.response.text()).to.include(\"John\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var esquema = {\r",
+									"    \"items\": {\r",
+									"        type: \"object\",\r",
+									"        properties: {\r",
+									"            id: {type: \"string\"},\r",
+									"            bookId: {type: \"number\"},\r",
+									"            customerName: {type: \"string\"},\r",
+									"            createdBy: {type:\"string\"},\r",
+									"            quantity: {type: \"number\"},\r",
+									"            timestamp: {type: \"number\"}\r",
+									"        }\r",
+									"    }\r",
+									"\r",
+									"};\r",
+									"\r",
+									"\r",
+									"pm.test(\"Validar esquema Orders\",function(){\r",
+									"    pm.response.to.have.jsonSchema(esquema);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "91194abd4a8101193decc7705f8195ebac839425ee1d9d2eb7da0d27ac2f8c3b",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Url_Base}}{{Orders}}",
+							"host": [
+								"{{Url_Base}}{{Orders}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerTodosMal",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validar codigo de no autorizado\",function(){\r",
+									"    pm.expect(pm.response).to.have.status(401);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Url_Base}}{{Orders}}",
+							"host": [
+								"{{Url_Base}}{{Orders}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerUno",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validar codigo de ok\",function(){\r",
+									"    pm.expect(pm.response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body matches string \",function(){\r",
+									"    pm.expect(pm.response.text()).to.include(\"DaoIHWSnrsGpYYCVvKw_S\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var esquema = {\r",
+									"    type: \"object\",\r",
+									"    properties: {\r",
+									"        id: {type: \"string\"},\r",
+									"        bookId: {type: \"number\"},\r",
+									"        customerName: {type: \"string\"},\r",
+									"        createdBy: {type: \"string\"},\r",
+									"        quantity: {type: \"number\"},\r",
+									"        timestmap: {type: \"number\"}\r",
+									"    }\r",
+									"};\r",
+									"pm.test(\"Validar esquema \",function(){\r",
+									"    pm.response.to.have.jsonSchema(esquema);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "91194abd4a8101193decc7705f8195ebac839425ee1d9d2eb7da0d27ac2f8c3b",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Url_Base}}{{Orders}}DaoIHWSnrsGpYYCVvKw_S",
+							"host": [
+								"{{Url_Base}}{{Orders}}DaoIHWSnrsGpYYCVvKw_S"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObteneUnoMal",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validar Codigo erorr\",function(){\r",
+									"    pm.expect(pm.response).to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "91194abd4a8101193decc7705f8195ebac839425ee1d9d2eb7da0d27ac2f8c3b",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Url_Base}}{{Orders}}xC9p2GpBYX0C25Tt3k--U3",
+							"host": [
+								"{{Url_Base}}{{Orders}}xC9p2GpBYX0C25Tt3k--U3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validar código\",function(){\r",
+									"    pm.expect(pm.response).to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "91194abd4a8101193decc7705f8195ebac839425ee1d9d2eb7da0d27ac2f8c3b",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"customerName\": \"Luis\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url_Base}}{{Orders}}DaoIHWSnrsGpYYCVvKw_S",
+							"host": [
+								"{{Url_Base}}{{Orders}}DaoIHWSnrsGpYYCVvKw_S"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarMal",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validar codigo not found\",function(){\r",
+									"    pm.expect(pm.response).to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "91194abd4a8101193decc7705f8195ebac839425ee1d9d2eb7da0d27ac2f8c3b",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"customerName\": \"John\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url_Base}}{{Orders}}xC9p2GpBYX0C25Tt3k--U3",
+							"host": [
+								"{{Url_Base}}{{Orders}}xC9p2GpBYX0C25Tt3k--U3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validar Código \",function(){\r",
+									"    pm.expect(pm.response).to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "91194abd4a8101193decc7705f8195ebac839425ee1d9d2eb7da0d27ac2f8c3b",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{Url_Base}}{{Orders}}wby2Dl5wj2qI0A_v4SstB",
+							"host": [
+								"{{Url_Base}}{{Orders}}wby2Dl5wj2qI0A_v4SstB"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EliminarMal",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validar código\",function(){\r",
+									"    pm.expect(pm.response).to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "91194abd4a8101193decc7705f8195ebac839425ee1d9d2eb7da0d27ac2f8c3b",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{Url_Base}}{{Orders}}xC9p2GpBYX0C25Tt3k-U3",
+							"host": [
+								"{{Url_Base}}{{Orders}}xC9p2GpBYX0C25Tt3k-U3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GetApi",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Url_Base}}",
+					"host": [
+						"{{Url_Base}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "Url_Base",
+			"value": "https://simple-books-api.glitch.me/"
+		}
+	]
+}
