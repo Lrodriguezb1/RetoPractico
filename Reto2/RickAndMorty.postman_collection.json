@@ -1,0 +1,164 @@
+{
+	"info": {
+		"_postman_id": "a72b65f7-2d15-4df7-9020-2906bd0b4068",
+		"name": "RickAndMorty",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34963824"
+	},
+	"item": [
+		{
+			"name": "ObtenerYVerificar",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Encontrar Rick Sanchez\",function(){\r",
+							"    var data = pm.response.json().results[0].name;\r",
+							"    console.log(data);\r",
+							"    pm.expect(data).to.include(\"Rick Sanchez\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Origin\",function(){\r",
+							"    var data = pm.response.json().results[0].origin.name;\r",
+							"    console.log(data);\r",
+							"    pm.expect(data).to.include(\"Earth (C-137\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Url_Rick}}?page=1",
+					"host": [
+						"{{Url_Rick}}"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ObtenerYVerirficarPaginacion",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Encontrar por pagina\",function(){",
+							"    pm.expect(pm.response.text()).to.include(\"Aqua Rick\");",
+							"});",
+							"",
+							"pm.test(\"Origin\",function(){",
+							"    pm.expect(pm.response.text()).to.include(\"unknown\")",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Url_Rick}}?page=2",
+					"host": [
+						"{{Url_Rick}}"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ObtenerId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Validar nombre id 40 \",function(){\r",
+							"    pm.expect(pm.response.text()).to.include(\"Beth's Mytholog\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validar origen\",function(){\r",
+							"    pm.expect(pm.response.text()).to.include(\"Nuptia 4\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validar tipo\",function(){\r",
+							"    pm.expect(pm.response.text()).to.include(\"Mytholog\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Url_Rick}}/40",
+					"host": [
+						"{{Url_Rick}}"
+					],
+					"path": [
+						"40"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ObtenerVariosIds",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Repuesta con array vacío\",function(){\r",
+							"    var ArrayVacio = Array.isArray(jsonData) && jsonData.length === 0;\r",
+							"    console.log(ArrayVacio);\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Url_Rick}}/19990,18899",
+					"host": [
+						"{{Url_Rick}}"
+					],
+					"path": [
+						"19990,18899"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
